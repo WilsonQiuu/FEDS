@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
-import { Button } from "./ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import Link from 'next/link'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { ChevronDown, Camera } from 'lucide-react'
 import { Incident, IncidentStatus } from '../types/incident'
 
@@ -54,7 +54,7 @@ export default function IncidentsList() {
   }
 
   return (
-    <Card className="h-full">
+    <Card className="h-full bg-white dark:bg-gray-800">
       <CardHeader>
         <CardTitle>Incidents</CardTitle>
       </CardHeader>
@@ -64,9 +64,9 @@ export default function IncidentsList() {
             <li key={incident.id} className="flex flex-col space-y-2">
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="font-semibold">{incident.title}</h3>
-                  <p className="text-sm text-gray-500">{incident.timestamp}</p>
-                  <div className="flex items-center text-sm text-gray-500 mt-1">
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100">{incident.title}</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{incident.timestamp}</p>
+                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1">
                     <Camera className="w-4 h-4 mr-1" />
                     {incident.liveFeed.name}
                   </div>

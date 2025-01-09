@@ -1,10 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from 'lucide-react'
-import { Button } from "./ui/button"
+import { Button } from "@/components/ui/button"
 
 type Feed = {
   id: number
@@ -20,6 +20,7 @@ export default function LiveFeed() {
     { id: 4, name: 'Camera 4', status: 'active' },
   ])
   const [currentFeed, setCurrentFeed] = useState<Feed>(feeds[0])
+  const [darkMode, setDarkMode] = useState(false)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -36,16 +37,23 @@ export default function LiveFeed() {
     setCurrentFeed(feeds.find(feed => feed.id === currentFeed.id) || feeds[0])
   }, [feeds])
 
+  useEffect(() => {
+    const darkModeObserver = new MutationObserver(() => {
+      setDarkMode(document.documentElement.classList.contains('dark'))
+    })
+    darkModeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+    return () => darkModeObserver.disconnect()
+  }, [])
+
   return (
-    <Card className="h-full flex flex-col">
+    <Card className="h-full flex flex-col bg-white dark:bg-gray-800">
       <CardHeader>
         <CardTitle>Live Feed: {currentFeed.name}</CardTitle>
       </CardHeader>
       <CardContent className="flex-grow flex flex-col">
         <div className="relative flex-grow">
-        
           <img
-            src={`https://placehold.co/600x400/000000/FFFFFF/png?text=${currentFeed.name}`}
+            src={`https://placehold.co/600x400/${darkMode ? '1F2937/FFFFFF' : '000000/FFFFFF'}/png?text=${currentFeed.name}`}
             alt={currentFeed.name}
             className="w-full h-full object-cover rounded-md"
           />

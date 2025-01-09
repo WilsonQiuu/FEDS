@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Comment } from '../types/incident';
-import { Button } from "./ui/button"
-import { Textarea } from "./ui/textarea"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 type CommentSectionProps = {
   comments: Comment[];
@@ -41,10 +41,10 @@ export function CommentSection({ comments, onAddComment }: CommentSectionProps) 
             </Avatar>
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <h4 className="text-sm font-semibold">{comment.author}</h4>
-                <span className="text-xs text-gray-500">{comment.timestamp}</span>
+                <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100">{comment.author}</h4>
+                <span className="text-xs text-gray-500 dark:text-gray-400">{comment.timestamp}</span>
               </div>
-              <p className="text-sm mt-1">{comment.content}</p>
+              <p className="text-sm mt-1 text-gray-700 dark:text-gray-300">{comment.content}</p>
             </div>
           </div>
         ))}

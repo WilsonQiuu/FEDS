@@ -1,5 +1,6 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
+import { DarkModeToggle } from './components/DarkModeToggle'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,10 +16,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="flex h-screen bg-gray-100">
+      <body className={`${inter.className} bg-white dark:bg-gray-900 text-black dark:text-white`}>
+        <div className="flex h-screen">
           <main className="flex-1 overflow-y-auto p-4">
-            {children}
+            <div className="container mx-auto">
+              <div className="flex justify-end mb-4">
+                <DarkModeToggle />
+              </div>
+              {children}
+            </div>
           </main>
         </div>
       </body>

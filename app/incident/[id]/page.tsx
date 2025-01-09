@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card"
-import { Button } from "../../components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { ArrowLeft, Play, Pause, RotateCcw, ChevronDown, Camera } from 'lucide-react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { CommentSection } from '../../components/CommentSection'
 import { Incident, IncidentStatus } from '../../types/incident'
 
@@ -20,6 +20,7 @@ export default function IncidentDetail() {
   const { id } = useParams()
   const [incident, setIncident] = useState<Incident | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [darkMode, setDarkMode] = useState(false)
 
   useEffect(() => {
     // Simulating API call to fetch incident details
@@ -36,6 +37,14 @@ export default function IncidentDetail() {
       liveFeed: { id: 1, name: 'Camera 1' }
     })
   }, [id])
+
+  useEffect(() => {
+    const darkModeObserver = new MutationObserver(() => {
+      setDarkMode(document.documentElement.classList.contains('dark'))
+    })
+    darkModeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+    return () => darkModeObserver.disconnect()
+  }, [])
 
   if (!incident) return <div>Loading...</div>
 
@@ -64,7 +73,7 @@ export default function IncidentDetail() {
         <ArrowLeft className="mr-2 h-4 w-4" /> Back to Incidents
       </Button>
       
-      <Card>
+      <Card className="bg-white dark:bg-gray-800">
         <CardHeader>
           <CardTitle>{incident.title}</CardTitle>
         </CardHeader>
@@ -72,8 +81,8 @@ export default function IncidentDetail() {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <div>
-                <p className="text-sm text-gray-500">{incident.timestamp}</p>
-                <div className="flex items-center text-sm text-gray-500 mt-1">
+                <p className="text-sm text-gray-500 dark:text-gray-400">{incident.timestamp}</p>
+                <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1">
                   <Camera className="w-4 h-4 mr-1" />
                   {incident.liveFeed.name}
                 </div>
@@ -103,7 +112,7 @@ export default function IncidentDetail() {
               <h3 className="font-semibold">Replay</h3>
               <div className="relative">
                 <img
-                  src={`https://placehold.co/600x400/000000/FFFFFF/png?text=Incident+Replay+(${incident.liveFeed.name})`}
+                  src={`https://placehold.co/600x400/${darkMode ? '1F2937/FFFFFF' : '000000/FFFFFF'}/png?text=Incident+Replay+(${incident.liveFeed.name})`}
                   alt={`Incident Replay from ${incident.liveFeed.name}`}
                   className="w-full h-auto rounded-md"
                 />
